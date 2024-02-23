@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+</head>
+<body>
+    <h1>chatting</h1>
+    <input type="text" id="massage" placeholder="Enter Massage">
+    <button id="sendBtn">Send</button>
+    <div id="massageContainer"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const sendBtn = document.getElementById("sendBtn");
+        const massageInput = document.getElementById("massage");
+        const Allmassage = document.getElementById("massageContainer");
+        
+
+        sendBtn.addEventListener("click",(e) => {
+        const massage= massageInput.value;
+        console.log(massage);
+        socket.emit('user-massage',massage);
+        massageInput.value="";
+        });
+
+        socket.on(`massage`,(massage) =>{
+            const p = document.createElement('p');
+            p.innerText = massage;
+            Allmassage.appendChild(p);
+        });
+      </script>
+</body>
+</html>
